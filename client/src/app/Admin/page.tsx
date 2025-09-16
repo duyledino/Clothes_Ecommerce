@@ -4,7 +4,7 @@ import Dashboard from "@/components/admin/Dashboard";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-const page = () => {
+function Page() {
   return (
     <>
       <Dashboard />
@@ -12,4 +12,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

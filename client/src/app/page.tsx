@@ -9,7 +9,7 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import { fetchApiCart } from "@/slice/CartSlice";
 
-export default function Home() {
+function Page() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);

@@ -16,7 +16,7 @@ import {
 
 const tags = ["image", "name", "size", "category", "price", "sold", "action"];
 
-const page = () => {
+const Page = () => {
   const [page, setPage] = useState(1);
   const { loading, ProductsAdmin, error, Message } = useAppSelector(
     (state) => state.ProductSlice
@@ -145,4 +145,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

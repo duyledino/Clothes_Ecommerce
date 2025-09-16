@@ -5,8 +5,8 @@ import { useSearchParams } from "next/navigation";
 import { fetchUpdateOrder } from "@/slice/OrderSlice";
 import { toast } from "react-toastify";
 
-const page = () => {
-  const { loading, error, Message } = useAppSelector(
+const Page = () => {
+  const { loadingOrder, errorOrder, MessageOrder } = useAppSelector(
     (state) => state.OrderSlice
   );
   const [stateTrans, setstateTrans] = useState<string | null>(null);
@@ -43,13 +43,13 @@ const page = () => {
     }
   }, [id]);
   useEffect(() => {
-    if (Message && !error) {
-      localStorage.setItem("payment_result", JSON.stringify(Message));
+    if (MessageOrder && !errorOrder) {
+      localStorage.setItem("payment_result", JSON.stringify(MessageOrder));
     }
-    if (error) {
-      setstateTrans(error);
+    if (errorOrder) {
+      setstateTrans(errorOrder);
     }
-  }, [error, Message]);
+  }, [errorOrder, MessageOrder]);
   useEffect(() => {
     if (stateTrans !== null) {
       localStorage.setItem("payment_result", JSON.stringify(stateTrans));
@@ -58,21 +58,21 @@ const page = () => {
   return (
     <div className="min-h-screen bg-white text-gray-900 flex items-center justify-center p-6">
       <div className="max-w-md w-full text-center space-y-6">
-        {(loading || id === undefined || id === null) && (
+        {(loadingOrder || id === undefined || id === null) && (
           <div className="animate-pulse">
             <p className="text-xl font-semibold">Processing your payment...</p>
             <div className="mt-4 h-4 bg-gray-300 rounded w-2/3 mx-auto" />
           </div>
         )}
 
-        {(error || stateTrans !== null) && (
+        {(errorOrder || stateTrans !== null) && (
           <div className="text-red-600">
             <p className="text-xl font-semibold">Payment Failed</p>
-            <p className="mt-2">{error}</p>
+            <p className="mt-2">{errorOrder}</p>
           </div>
         )}
 
-        {!loading && !error && Message && (
+        {!loadingOrder && !errorOrder && MessageOrder && (
           <div className="text-green-600">
             <p className="text-xl font-semibold">Payment Successful!</p>
           </div>
@@ -82,4 +82,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

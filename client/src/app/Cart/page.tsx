@@ -14,7 +14,7 @@ const CartPage = () => {
   const [process, setProcess] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const { carts } = useAppSelector((state) => state.CartSlice);
-  const { Message, error, loading, orderId } = useAppSelector(
+  const { MessageOrder, errorOrder, loadingOrder, orderId } = useAppSelector(
     (state) => state.OrderSlice
   );
   const { PaymentURL, paymentError, paymentLoading } = useAppSelector(
@@ -44,8 +44,8 @@ const CartPage = () => {
   };
   //NOTE:check Message or error after fetch api
   useEffect(() => {
-    if (Message && !error) {
-      toast.success(Message);
+    if (MessageOrder && !errorOrder) {
+      toast.success(MessageOrder);
       if (localStore === undefined || localStore === null) {
         toast.error("No token");
         return;
@@ -54,15 +54,15 @@ const CartPage = () => {
       dispatch(fetchApiCart({ id: id, token: token }));
       dispatch(resetState());
     }
-    if (error || paymentError) {
-      const e = error || paymentError;
+    if (errorOrder || paymentError) {
+      const e = errorOrder || paymentError;
       toast.error(e);
     }
     if (PaymentURL) {
       window.open(PaymentURL, "_blank");
       setProcess(true);
     }
-  }, [PaymentURL, paymentError, Message, error]);
+  }, [PaymentURL, paymentError, MessageOrder, errorOrder]);
   //NOTE:check local storage is change ?
   useEffect(() => {
     const storageChange = () => {
@@ -93,7 +93,7 @@ const CartPage = () => {
   }, [orderId]);
   return (
     <>
-      {(loading || paymentLoading || process) && <Loading />}
+      {(loadingOrder || paymentLoading || process) && <Loading />}
       <div className="container mx-auto pt-14">
         <div className="w-full px-3.5 flex flex-col">
           <div className="lg:w-full">

@@ -27,7 +27,7 @@ type Message = {
   content: string;
 };
 
-const ChatPage = () => {
+function Page() {
   const router = useRouter();
   const socketRef = useRef<WebSocket | null>(null);
   const dispatch = useAppDispatch();
@@ -135,4 +135,4 @@ const ChatPage = () => {
   );
 };
 
-export default ChatPage;
+export default Page;

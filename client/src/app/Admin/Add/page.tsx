@@ -26,7 +26,7 @@ type ImageURL = {
 
 const sizes: string[] = ["S", "M", "L", "XL", "XXL"];
 
-const page = () => {
+function Page() {
   const dispatch = useAppDispatch();
   const { error, loading, Message } = useAppSelector(
     (state) => state.ProductSlice
@@ -392,4 +392,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

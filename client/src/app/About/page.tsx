@@ -2,7 +2,7 @@ import React from 'react';
 import AboutComponent from '@/components/guest/AboutComponent';
 import WhyChoose from '@/components/guest/WhyChoose';
 
-const page = () => {
+function Page() {
   return (
     <div className='md:px-0 px-3'>
       <AboutComponent />
@@ -11,4 +11,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
