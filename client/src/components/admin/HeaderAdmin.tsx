@@ -10,7 +10,9 @@ const HeaderAdmin = () => {
   const router = useRouter();
   const [localStore, setLocalStore] = useState<string | null>(null);
   useEffect(() => {
-    setLocalStore(localStorage.getItem("user"));
+    if (typeof window !== "undefined") {
+      setLocalStore(localStorage.getItem("user"));
+    }
   }, []);
   console.log("localStore admin:", localStore);
   return (

@@ -14,9 +14,9 @@ const navLinks = [
 
 const Nav = () => {
   const pathname = usePathname();
-  const [localStore, setLocalStore] = useState<string | null>();
+  const [localStore, setLocalStore] = useState<string | null>(null);
   useEffect(() => {
-    if (typeof window !== undefined) {
+    if (typeof window !== "undefined") {
       setLocalStore(localStorage.getItem("user"));
     }
   }, []);

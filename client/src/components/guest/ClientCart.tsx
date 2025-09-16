@@ -26,16 +26,18 @@ type cartItem = {
   product: Product;
   active: boolean;
   size: string;
-  
 };
 
 const ClientCart = ({ carts }: { carts: cartItem[] }) => {
   // const { carts } = useAppSelector((state) => state.CartSlice);
   // console.log("carts in page cart: ", carts);
-  const [localStore, setLocalStore] = useState<string | null>(() => {
-    return localStorage.getItem("user");
-  });
+  const [localStore, setLocalStore] = useState<string | null>(null);
   const dispatch = useAppDispatch();
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setLocalStore(localStorage.getItem("user"));
+    }
+  }, []);
   const { Message, error, loading } = useAppSelector(
     (state) => state.CartSlice
   );

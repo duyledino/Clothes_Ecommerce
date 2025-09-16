@@ -10,7 +10,7 @@ import { fetchApiCart } from "@/slice/CartSlice";
 import { fetchApiPaymentURL } from "@/slice/PaymentSlice";
 
 const CartPage = () => {
-  const [localStore, setLocalStore] = useState(localStorage.getItem("user"));
+  const [localStore, setLocalStore] = useState<string | null>(null);
   const [process, setProcess] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const { carts } = useAppSelector((state) => state.CartSlice);
@@ -20,6 +20,11 @@ const CartPage = () => {
   const { PaymentURL, paymentError, paymentLoading } = useAppSelector(
     (state) => state.PaymentSlice
   );
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setLocalStore(localStorage.getItem("user"));
+    }
+  }, []);
   //NOTE: handle "Proceed to checkout" button
   const handleCLick = () => {
     if (localStore === undefined || localStore === null) {
@@ -37,7 +42,7 @@ const CartPage = () => {
             productId: item.product.id,
             count: item.count,
             subTotal: item.subtotal,
-            size: item.size
+            size: item.size,
           })),
       })
     );

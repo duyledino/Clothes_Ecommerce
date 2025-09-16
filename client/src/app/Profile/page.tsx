@@ -31,12 +31,14 @@ const Profile = () => {
   const router = useRouter();
   const [process, setProcess] = useState<boolean>(false);
   const [open, setOpen] = useState<boolean>(false);
-  const [localStore, setLocalStore] = useState<string | null>();
+  const [localStore, setLocalStore] = useState<string | null>(null);
   useEffect(() => {
-    if (typeof window !== undefined) {
+    if (typeof window !== "undefined") {
+      const user = localStorage.getItem("user");
+      console.log("user: ", user);
       setLocalStore(localStorage.getItem("user"));
     }
-  }, []);
+  }, [window]);
   const { MessageOrder, loadingOrder, errorOrder, OrdersUser } = useAppSelector(
     (state) => state.OrderSlice
   );
@@ -102,7 +104,6 @@ const Profile = () => {
   }, [errorOrder, MessageOrder]);
   useEffect(() => {
     if (localStore === undefined || localStore === null) {
-      toast.error("No token");
       return;
     }
     const { token, id } = JSON.parse(localStore);
@@ -119,7 +120,7 @@ const Profile = () => {
     dispatch(fetchUserById({ id: id, token }));
     window.addEventListener("storage", storageChange);
     return () => window.removeEventListener("storage", storageChange);
-  }, []);
+  }, [localStore]);
   useEffect(() => {
     if (paymentError) {
       toast.error(paymentError);
