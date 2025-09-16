@@ -23,7 +23,7 @@ type ProductData = {
   size: string[];
 };
 
-const Page = () => {
+const Collection = () => {
   const { show } = useAppSelector((state) => state.SearchBar);
   const { SearchProduct, loading, error } = useAppSelector(
     (state) => state.ProductSlice
@@ -81,4 +81,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default Collection;

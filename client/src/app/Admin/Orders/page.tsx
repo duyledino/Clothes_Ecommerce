@@ -9,10 +9,8 @@ import { toast } from "react-toastify";
 const page = () => {
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
-  const { Orders, error, loading } = useAppSelector(
-    (state) => state.OrderSlice
-  );
-  console.log("Orders: ",Orders);
+  const { Orders } = useAppSelector((state) => state.OrderSlice);
+  console.log("Orders: ", Orders);
   useEffect(() => {
     const localStore = localStorage.getItem("user");
     if (localStore === undefined || localStore === null) {

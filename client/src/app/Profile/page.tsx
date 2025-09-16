@@ -22,7 +22,7 @@ type paymentAndStatus = {
   status: string | undefined;
 };
 
-const ProfilePage  = () => {
+const Profile  = () => {
   const [param, setParam] = useState<paymentAndStatus>({
     id: undefined,
     payment: undefined,
@@ -202,4 +202,4 @@ const ProfilePage  = () => {
   );
 };
 
-export default ProfilePage ;
+export default Profile ;

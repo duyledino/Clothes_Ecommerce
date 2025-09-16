@@ -14,7 +14,7 @@ import { toast } from "react-toastify";
 import Loading from "@/components/ui/Loading";
 import { fetchReviewsByProductId } from "@/slice/ReviewSlice";
 
-const Page = () => {
+const DetailPage = () => {
   // TODO: fetch product by id
   const { Product, loading, error } = useAppSelector(
     (state) => state.ProductSlice
@@ -52,4 +52,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default DetailPage;

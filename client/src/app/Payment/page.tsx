@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { fetchUpdateOrder } from "@/slice/OrderSlice";
 import { toast } from "react-toastify";
 
-const Page = () => {
+const Payment = () => {
   const { loadingOrder, errorOrder, MessageOrder } = useAppSelector(
     (state) => state.OrderSlice
   );
@@ -82,4 +82,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default Payment;
