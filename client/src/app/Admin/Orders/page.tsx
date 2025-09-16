@@ -6,7 +6,7 @@ import { fetchApiAllOrder } from "@/slice/OrderSlice";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-const page = () => {
+const OrderPage = () => {
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
   const { Orders } = useAppSelector((state) => state.OrderSlice);
@@ -49,4 +49,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default OrderPage;
