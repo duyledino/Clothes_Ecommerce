@@ -19,7 +19,9 @@ const DetailPage = () => {
   const { Product, loading, error } = useAppSelector(
     (state) => state.ProductSlice
   );
-  const  {Reviews,errorReview,loadingReview} = useAppSelector(state=>state.ReviewSlice); 
+  const { Reviews, errorReview, loadingReview } = useAppSelector(
+    (state) => state.ReviewSlice
+  );
   const dispatch = useAppDispatch();
   const { id }: { id: string } = useParams();
   useEffect(() => {
@@ -29,14 +31,17 @@ const DetailPage = () => {
   useEffect(() => {
     if (error) {
       toast.error(error);
+    } else if (errorReview) {
+      toast.error(errorReview);
     }
-  }, [error]);
-
+  }, [error, errorReview]);
+  console.log("Reviews: ", Reviews);
   return (
     <>
-      {loading && <Loading />}
+      {loading || (loadingReview && <Loading />)}
       <div className="container mx-auto pt-14 md:px-0 px-3">
         <ProductInfo
+          Reviews={Reviews}
           tryon={Product?.tryon}
           description={Product?.description}
           id={Product?.id}
@@ -45,7 +50,13 @@ const DetailPage = () => {
           title={Product?.title}
           size={Product?.size}
         />
-        <ProductDesAndReview productId={Product?.id || ''} description={Product?.description || "No description for this product"} reviews={Reviews} />
+        <ProductDesAndReview
+          productId={Product?.id || ""}
+          description={
+            Product?.description || "No description for this product"
+          }
+          reviews={Reviews}
+        />
         <RelatedProduct />
       </div>
     </>

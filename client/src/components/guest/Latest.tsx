@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "@/app/hooks";
 import { fetchLatestFromApi } from "@/slice/ProductSlice";
 import { toast } from "react-toastify";
 import Loading from "../ui/Loading";
+import Link from "next/link";
 
 const Latest = () => {
   const { LatestProduct, loading, Message, error } = useAppSelector(
@@ -36,12 +37,14 @@ const Latest = () => {
         </h2>
         <div className="grid lg:grid-cols-5 md:grid-4 sm:grid-cols-3 grid-cols-2 mt-10 gap-5 gap-y-6">
           {LatestProduct.map((item) => (
-            <Card
-              key={item.id}
-              imageUrl={item.imageUrl[0]}
-              title={item.title}
-              price={item.price}
-            />
+            <Link href={`/Product/${item.id}`} key={item.id}>
+              <Card
+                key={item.id}
+                imageUrl={item.imageUrl[0]}
+                title={item.title}
+                price={item.price}
+              />
+            </Link>
           ))}
         </div>
       </div>

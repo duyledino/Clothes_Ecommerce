@@ -148,10 +148,11 @@ const ProductDesAndReview = ({
   return (
     <>
       {loadingReview && <Loading />}
-      <div className="w-full border border-gray-200 rounded-md overflow-hidden my-24">
-        <div className="flex border-b-2">
-          <button
-            className={`
+      {localStore ? (
+        <div className="w-full border border-gray-200 rounded-md overflow-hidden my-24">
+          <div className="flex border-b-2">
+            <button
+              className={`
             px-5 py-2 text-sm text-gray-700
             ${
               activeTab === "description"
@@ -160,12 +161,12 @@ const ProductDesAndReview = ({
             }
             focus:outline-none
           `}
-            onClick={() => handleTabClick("description")}
-          >
-            Description
-          </button>
-          <button
-            className={`
+              onClick={() => handleTabClick("description")}
+            >
+              Description
+            </button>
+            <button
+              className={`
             px-5 py-2 text-sm text-gray-700
             ${
               activeTab === "reviews"
@@ -174,133 +175,139 @@ const ProductDesAndReview = ({
             }
             focus:outline-none
           `}
-            onClick={() => handleTabClick("reviews")}
-          >
-            Reviews ({reviews.length})
-          </button>
-        </div>
-        <div className="p-5">
-          {activeTab === "description" && (
-            <div className="tab-panel">
-              {description !== undefined ||
-              description !== null ||
-              description !== "" ? (
-                description
-              ) : (
-                <>
-                  <p className="text-sm leading-relaxed text-gray-600">
-                    An e-commerce website is an online platform that facilitates
-                    the buying and selling of products or services over the
-                    internet. It serves as a virtual marketplace where
-                    businesses and individuals can showcase their products,
-                    interact with customers, and conduct transactions without
-                    the need for a physical presence. E-commerce websites have
-                    gained immense popularity due to their convenience,
-                    accessibility, and the global reach they offer.
-                  </p>
-                  <p className="text-sm leading-relaxed text-gray-600">
-                    E-commerce websites typically display products or services
-                    along with detailed descriptions, images, prices, and any
-                    available variations (e.g., sizes, colors). Each product
-                    usually has its own dedicated page with relevant
-                    information.
-                  </p>
-                </>
-              )}
-            </div>
-          )}
-          {activeTab === "reviews" && (
-            <div className="tab-panel">
-              <div className="flex flex-col gap-1">
-                {reviews.length > 0 ? (
-                  reviews.map((review) => (
-                    <div
-                      key={review.productId}
-                      className="mb-4 relative"
-                      onClick={() =>
-                        setGetValue((prev) => {
-                          if (review.userId !== localStore?.id) return null;
-                          return prev !== null ? null : review;
-                        })
-                      }
-                    >
-                      <p className="text-sm font-semibold text-gray-800">
-                        {review.user?.email}
-                      </p>
-                      <p className="text-sm text-gray-600">{review.content}</p>
-                      <div className="flex items-center">
-                        <span className="text-sm text-gray-500">Score:</span>
-                        <span className="ml-1 text-sm text-gray-700">
-                          {review.score}
-                        </span>
-                      </div>
-                      {localStore?.id === review.userId ? (
-                        <Button
-                          onClick={() => deleteUserReview()}
-                          variant={"ghost"}
-                          className="absolute top-0 right-0 bg-gray-100 text-gray-600 hover:text-red-600 focus:outline-none md:col-span-1 col-span-2 cursor-pointer md:w-fit w-fit"
-                        >
-                          <Trash className="w-6 h-6" />
-                        </Button>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                  ))
+              onClick={() => handleTabClick("reviews")}
+            >
+              Reviews ({reviews.length})
+            </button>
+          </div>
+          <div className="p-5">
+            {activeTab === "description" && (
+              <div className="tab-panel">
+                {description !== undefined ||
+                description !== null ||
+                description !== "" ? (
+                  description
                 ) : (
-                  <p className="text-sm leading-relaxed text-gray-600">
-                    No reviews yet.
-                  </p>
+                  <>
+                    <p className="text-sm leading-relaxed text-gray-600">
+                      An e-commerce website is an online platform that
+                      facilitates the buying and selling of products or services
+                      over the internet. It serves as a virtual marketplace
+                      where businesses and individuals can showcase their
+                      products, interact with customers, and conduct
+                      transactions without the need for a physical presence.
+                      E-commerce websites have gained immense popularity due to
+                      their convenience, accessibility, and the global reach
+                      they offer.
+                    </p>
+                    <p className="text-sm leading-relaxed text-gray-600">
+                      E-commerce websites typically display products or services
+                      along with detailed descriptions, images, prices, and any
+                      available variations (e.g., sizes, colors). Each product
+                      usually has its own dedicated page with relevant
+                      information.
+                    </p>
+                  </>
                 )}
               </div>
-              <div className="mt-4">
-                <form action="" onSubmit={handleSubmit}>
-                  <div className="flex gap-2.5 mb-2">
-                    {star.length > 0
-                      ? [
-                          ...star.map((item, index) => (
-                            <Image
-                              src={assets.star_icon}
-                              alt="star"
-                              className="w-5 h-w-5 cursor-pointer"
-                              onClick={() => clickStar(index)}
-                            />
-                          )),
-                          ...Array.from(
-                            { length: 5 - star.length },
-                            (v, i) => i
-                          ).map((_, i) => (
-                            <Image
-                              src={assets.star_dull_icon}
-                              alt="star_dulll"
-                              className="w-5 h-w-5 cursor-pointer"
-                              onClick={() => clickStar(star.length + i)}
-                            />
-                          )),
-                        ]
-                      : Array.from({ length: 5 }, (v, i) => i).map(
-                          (item, index) => (
-                            <Image
-                              src={assets.star_dull_icon}
-                              alt="star_dulll"
-                              className="w-5 h-w-5 cursor-pointer"
-                              onClick={() => clickStar(index)}
-                            />
-                          )
+            )}
+            {activeTab === "reviews" && (
+              <div className="tab-panel">
+                <div className="flex flex-col gap-1">
+                  {reviews.length > 0 ? (
+                    reviews.map((review) => (
+                      <div
+                        key={review.productId}
+                        className="mb-4 relative"
+                        onClick={() =>
+                          setGetValue((prev) => {
+                            if (review.userId !== localStore?.id) return null;
+                            return prev !== null ? null : review;
+                          })
+                        }
+                      >
+                        <p className="text-sm font-semibold text-gray-800">
+                          {review.user?.email}
+                        </p>
+                        <p className="text-sm text-gray-600">
+                          {review.content}
+                        </p>
+                        <div className="flex items-center">
+                          <span className="text-sm text-gray-500">Score:</span>
+                          <span className="ml-1 text-sm text-gray-700">
+                            {review.score}
+                          </span>
+                        </div>
+                        {localStore?.id === review.userId ? (
+                          <Button
+                            onClick={() => deleteUserReview()}
+                            variant={"ghost"}
+                            className="absolute top-0 right-0 bg-gray-100 text-gray-600 hover:text-red-600 focus:outline-none md:col-span-1 col-span-2 cursor-pointer md:w-fit w-fit"
+                          >
+                            <Trash className="w-6 h-6" />
+                          </Button>
+                        ) : (
+                          ""
                         )}
-                  </div>
-                  <Input
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
-                    placeholder="Review this product"
-                    className="w-full"
-                  />
-                </form>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-sm leading-relaxed text-gray-600">
+                      No reviews yet.
+                    </p>
+                  )}
+                </div>
+                <div className="mt-4">
+                  <form action="" onSubmit={handleSubmit}>
+                    <div className="flex gap-2.5 mb-2">
+                      {star.length > 0
+                        ? [
+                            ...star.map((item, index) => (
+                              <Image
+                                src={assets.star_icon}
+                                alt="star"
+                                className="w-5 h-w-5 cursor-pointer"
+                                onClick={() => clickStar(index)}
+                              />
+                            )),
+                            ...Array.from(
+                              { length: 5 - star.length },
+                              (v, i) => i
+                            ).map((_, i) => (
+                              <Image
+                                src={assets.star_dull_icon}
+                                alt="star_dulll"
+                                className="w-5 h-w-5 cursor-pointer"
+                                onClick={() => clickStar(star.length + i)}
+                              />
+                            )),
+                          ]
+                        : Array.from({ length: 5 }, (v, i) => i).map(
+                            (item, index) => (
+                              <Image
+                                src={assets.star_dull_icon}
+                                alt="star_dulll"
+                                className="w-5 h-w-5 cursor-pointer"
+                                onClick={() => clickStar(index)}
+                              />
+                            )
+                          )}
+                    </div>
+                    <Input
+                      value={content}
+                      onChange={(e) => setContent(e.target.value)}
+                      placeholder="Review this product"
+                      className="w-full"
+                    />
+                  </form>
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
-      </div>
+      ) : (
+        ""
+      )}
     </>
   );
 };

@@ -29,6 +29,19 @@ type Product = {
   price: number | undefined;
   size: string[] | undefined;
   tryon: string | undefined;
+  Reviews: Review[];
+};
+
+type Review = {
+  productId: string;
+  userId: string;
+  score: number;
+  content: string;
+  user?: {
+    id: string;
+    email: string;
+    name: string;
+  };
 };
 
 const ProductInfo = ({
@@ -39,6 +52,7 @@ const ProductInfo = ({
   price,
   size,
   tryon,
+  Reviews,
 }: Product) => {
   if (
     id === undefined ||
@@ -54,7 +68,13 @@ const ProductInfo = ({
   const [sizeProduct, setSizeProduct] = useState("");
   const image = imageUrl[0];
   const stars = Array.from(
-    { length: Math.floor(Math.random() * 5) },
+    {
+      length: Math.floor(
+        Reviews.length === 0
+          ? 0
+          : Reviews.reduce((pre, curr) => pre + curr.score, 0) / Reviews.length
+      ),
+    },
     (v, i) => i
   );
   console.log("product id: ", id);
@@ -121,7 +141,7 @@ const ProductInfo = ({
                 )
               )}
             </div>
-            <p>(122)</p>
+            <p>({Reviews.length})</p>
           </div>
           <h1 className="text-black font-bold text-2xl">{price}</h1>
           <p className="text-gray-500 text-[14px] font-semibold">
