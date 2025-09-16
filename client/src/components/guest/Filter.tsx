@@ -29,13 +29,13 @@ type setCateAndType = {
 
 const Filter = ({ setSubcategory, setCategories }: setCateAndType) => {
   const [show, setShow] = useState<boolean | undefined>();
-  const [width, setWidth] = useState<number | undefined>(
-    typeof window === undefined ? 0 : window?.innerWidth
-  );
+  const [width, setWidth] = useState<number | undefined>(0);
   useEffect(() => {
-    const handleWith = () => setWidth(window.innerWidth);
-    window.addEventListener("resize", handleWith);
-    return () => window.removeEventListener("resize", handleWith);
+    if (typeof window !== "undefined") {
+      const handleWith = () => setWidth(window.innerWidth);
+      window.addEventListener("resize", handleWith);
+      return () => window.removeEventListener("resize", handleWith);
+    }
   }, []);
   const cateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value);
