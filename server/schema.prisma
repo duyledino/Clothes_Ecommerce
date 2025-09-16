@@ -1,0 +1,127 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model spatial_ref_sys {
+  srid      Int     @id
+  auth_name String? @db.VarChar(256)
+  auth_srid Int?
+  srtext    String? @db.VarChar(2048)
+  proj4text String? @db.VarChar(2048)
+}
+
+model User {
+    id           String         @id @default(uuid())
+    email        String         @unique
+    password     String
+    name         String?
+    address      String         @default("")
+    admin        Boolean        @default(false)
+    carts        Cart[]
+    orders       Order[]
+    review       Review[]
+    fromChat     Chat_User[]    @relation(name: "FromUser")
+    toChat       Chat_User[]    @relation(name: "ToUser")
+    chat_message Chat_Message[]
+}
+
+//cannot delete this because constrain to detail so mark it as deleted to delete it (not for sell anymore !!)
+model Product {
+    id          String   @id
+    title       String
+    price       BigInt
+    description String
+    count       Int      @default(0)
+    date        DateTime @default(now())
+    // this is try on image 
+    tryon       String
+    imageUrl    String[]
+    category    String
+    subCategory String
+    isDelete    String @default("") //NOTE: empty or deleted 
+    size        String[]
+    carts       Cart[]
+    detail      Detail[]
+    review      Review[]
+}
+
+model Order {
+    id      String   @id @default(uuid())
+    userId  String
+    total   BigInt
+    date    DateTime @default(now())
+    payment String   @default("Pending") // Done,  Cancel
+    status  String   @default("Order Placed") // Cancel, Shipped, Delivered
+    update  DateTime @default(now())
+    details Detail[]
+    user    User     @relation(fields: [userId], references: [id])
+}
+
+model Detail {
+    orderId   String
+    productId String
+    count     Int     @default(0)
+    subtotal  BigInt  @default(0)
+    order     Order   @relation(fields: [orderId], references: [id])
+    product   Product @relation(fields: [productId], references: [id])
+    size      String
+
+    @@id([productId, orderId, size])
+}
+
+model Cart {
+    userId    String
+    productId String
+    count     Int     @default(0)
+    subtotal  BigInt  @default(0)
+    active    Boolean @default(false)
+    size      String
+    product   Product @relation(fields: [productId], references: [id])
+    user      User    @relation(fields: [userId], references: [id])
+
+    @@id([userId, productId, size])
+}
+
+model Review {
+    productId String
+    userId    String
+    product   Product @relation(fields: [productId], references: [id])
+    user      User    @relation(fields: [userId], references: [id])
+    score     Int     @default(0)
+    content   String  @default("")
+
+    @@id([productId, userId])
+}
+
+model Chat_User {
+    chatId     String
+    userIdFrom String
+    userIdTo   String
+
+    Chat     Chat @relation(fields: [chatId], references: [chatId])
+    fromUser User @relation("FromUser", fields: [userIdFrom], references: [id])
+    toUser   User @relation("ToUser", fields: [userIdTo], references: [id])
+
+    @@id([chatId, userIdFrom, userIdTo])
+}
+
+model Chat {
+    chatId       String         @id @default(uuid())
+    chat_Message Chat_Message[]
+    chat_user    Chat_User[]
+}
+
+model Chat_Message {
+    messageId String @id @default(uuid())
+    chatId    String
+    content   String
+    userId    String
+    chat      Chat   @relation(fields: [chatId], references: [chatId])
+    user      User   @relation(fields: [userId], references: [id])
+}

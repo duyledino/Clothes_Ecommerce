@@ -1,0 +1,21 @@
+# Node modules & logs
+node_modules
+npm-debug.log
+yarn-error.log
+
+# Environment files
+.env
+.env.local
+
+# Git & editor files
+.git
+.gitignore
+Dockerfile
+docker-compose.yaml
+*.swp
+*.swo
+*.DS_Store
+
+# Build output (if any)
+dist
+build
