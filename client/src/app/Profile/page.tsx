@@ -38,7 +38,7 @@ const Profile = () => {
       console.log("user: ", user);
       setLocalStore(localStorage.getItem("user"));
     }
-  }, [window]);
+  }, []);
   const { MessageOrder, loadingOrder, errorOrder, OrdersUser } = useAppSelector(
     (state) => state.OrderSlice
   );
