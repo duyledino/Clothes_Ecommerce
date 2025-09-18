@@ -31,7 +31,7 @@ const initialState: ReviewState = {
 const baseUrl =
   process.env.NEXT_PUBLIC_NODE_ENV === "development"
     ? process.env.NEXT_PUBLIC_SERVER_API
-    : "";
+    : "/api";
 
 // Async thunk for fetching reviews by product ID
 export const fetchReviewsByProductId = createAsyncThunk(

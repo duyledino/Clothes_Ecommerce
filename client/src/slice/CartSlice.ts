@@ -31,7 +31,7 @@ const initialState: {
 const baseUrl =
   process.env.NEXT_PUBLIC_NODE_ENV === "development"
     ? process.env.NEXT_PUBLIC_SERVER_API
-    : "";
+    : "/api";
 
 export const fetchApiCart = createAsyncThunk(
   "get cart",

@@ -9,7 +9,7 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: "/:path*",
+        source: "/api/:path*",
         destination:
           "http://ec2-13-214-183-109.ap-southeast-1.compute.amazonaws.com:4000/api/v1/:path*",
       },
