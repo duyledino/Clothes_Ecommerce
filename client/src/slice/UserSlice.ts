@@ -43,15 +43,11 @@ export const fetchLogin = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await axios.post(
-        `${baseUrl}/user/login`,
-        credentials,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post(`${baseUrl}/user/login`, credentials, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       return response.data;
     } catch (error: any) {
       console.error(error);
@@ -65,15 +61,11 @@ export const fetchSignup = createAsyncThunk(
   "sign up user",
   async (user: { email: string; password: string }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        `${baseUrl}/user/createAUser`,
-        user,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post(`${baseUrl}/user/createAUser`, user, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       return response.data;
     } catch (error: any) {
       console.log(error);
@@ -86,7 +78,13 @@ export const fetchSignup = createAsyncThunk(
 export const fetchUpdateUser = createAsyncThunk(
   "updateUser/put",
   async (
-    data: { token: string; id: string; password: string; adderss: string,name:string },
+    data: {
+      token: string;
+      id: string;
+      password: string;
+      adderss: string;
+      name: string;
+    },
     { rejectWithValue }
   ) => {
     try {
@@ -94,7 +92,7 @@ export const fetchUpdateUser = createAsyncThunk(
         `${baseUrl}/user/updateUser`,
         {
           id: data.id,
-          name:data.name,
+          name: data.name,
           address: data.adderss,
           password: data.password,
         },
@@ -118,6 +116,10 @@ export const fetchUserById = createAsyncThunk(
   "fetchUserById/get",
   async (data: { token: string; id: string }, { rejectWithValue }) => {
     try {
+      console.log(
+        "process.env.NEXT_PUBLIC_NODE_ENV: ",
+        process.env.NEXT_PUBLIC_NODE_ENV
+      );
       const response = await axios.get(
         `${baseUrl}/user/getAUser?id=${data.id}`,
         {
@@ -140,10 +142,9 @@ const userSlice = createSlice({
   name: "user Slice",
   initialState,
   reducers: {
-    resetUserState:(state)=>{
-      state.errorUser = null,
-      state.Message = null
-    }
+    resetUserState: (state) => {
+      (state.errorUser = null), (state.Message = null);
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchLogin.pending, (state, action) => {
@@ -198,5 +199,5 @@ const userSlice = createSlice({
   },
 });
 
-export const {resetUserState} = userSlice.actions;
+export const { resetUserState } = userSlice.actions;
 export default userSlice.reducer;
