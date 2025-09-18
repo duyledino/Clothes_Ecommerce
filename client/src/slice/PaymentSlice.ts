@@ -11,6 +11,11 @@ const initialState: {
   paymentLoading: false,
 };
 
+const baseUrl =
+  process.env.NEXT_PUBLIC_NODE_ENV === "development"
+    ? process.env.NEXT_PUBLIC_SERVER_API
+    : "";
+
 export const fetchApiPaymentURL = createAsyncThunk(
   "payment URL",
   async (
@@ -22,7 +27,7 @@ export const fetchApiPaymentURL = createAsyncThunk(
       //get userid, token, totalCart (number)
       try {
         const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_SERVER_API}/payment/createPayment`,
+          `${baseUrl}/payment/createPayment`,
           { id: data.id, total: data.total },
           {
             headers: {

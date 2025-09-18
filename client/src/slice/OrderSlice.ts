@@ -79,12 +79,17 @@ const initialState: {
   OrdersUser: [],
 };
 
+const baseUrl =
+  process.env.NEXT_PUBLIC_NODE_ENV === "development"
+    ? process.env.NEXT_PUBLIC_SERVER_API
+    : "";
+
 export const fetchApiAllOrder = createAsyncThunk(
   "fetchAllOrder/get",
   async (data: { token: string; page: number }, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/order/allOrders?page=${data.page}`,
+        `${baseUrl}/order/allOrders?page=${data.page}`,
         {
           headers: {
             Authorization: `Bearer ${data.token}`,
@@ -105,7 +110,7 @@ export const fetchTotalOrderPage = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/order/getTotalPage`
+        `${baseUrl}/order/getTotalPage`
       );
       console.log("total page: ", response.data);
       return response.data.total;
@@ -135,7 +140,7 @@ export const fetchUpdateOrder = createAsyncThunk(
   ) => {
     try {
       const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/order/updateOrder?id=${data.order.id}`,
+        `${baseUrl}/order/updateOrder?id=${data.order.id}`,
         {
           payment: data.order.payment,
           status: data.order.status,
@@ -166,7 +171,7 @@ export const fetchCreateOrder = createAsyncThunk(
     console.log("detail: ", data.detail); // got this detail[]:
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/order/createAOrder`,
+        `${baseUrl}/order/createAOrder`,
         { userId: data.id, details: data.detail },
         {
           headers: {
@@ -192,7 +197,7 @@ export const fetchGetOrdersById = createAsyncThunk(
     console.log("detail: ", data);
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/order/getOrderById?id=${data.id}`,
+        `${baseUrl}/order/getOrderById?id=${data.id}`,
         {
           headers: {
             Authorization: `Bearer ${data.token}`,

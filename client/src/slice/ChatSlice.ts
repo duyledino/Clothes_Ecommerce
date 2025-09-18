@@ -35,13 +35,18 @@ const initialState: ChatState = {
   messages: null,
 };
 
+const baseUrl =
+  process.env.NEXT_PUBLIC_NODE_ENV === "development"
+    ? process.env.NEXT_PUBLIC_SERVER_API
+    : "";
+
 export const fetchChatsByUserId = createAsyncThunk(
   "chat/fetchChatsByUserId",
   async (data: { userId: string; token: string }, { rejectWithValue }) => {
     try {
       console.log("chat/fetchChatsByUserId: ", data);
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/chat/getChatByUserId?userId=${data.userId}`,
+        `${baseUrl}/chat/getChatByUserId?userId=${data.userId}`,
         {
           headers: {
             Authorization: `Bearer ${data.token}`,
@@ -63,7 +68,7 @@ export const createChat = createAsyncThunk(
     try {
       console.log("chat/createChat", data);
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/chat/createChat?userId=${data.userId}`,
+        `${baseUrl}/chat/createChat?userId=${data.userId}`,
         {},
         {
           headers: {
@@ -87,7 +92,7 @@ export const createMessage = createAsyncThunk(
   ) => {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/chat/createMessage?chatId=${data.chatId}&userId=${data.userId}`,
+        `${baseUrl}/chat/createMessage?chatId=${data.chatId}&userId=${data.userId}`,
         { content: data.content }, // Access content from data parameter
         {
           headers: {
@@ -109,7 +114,7 @@ export const getAllMessageFromChat = createAsyncThunk(
     console.log("chatId, token: ", data.chatId, data.token);
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/chat/getMessage?chatId=${data.chatId}`,
+        `${baseUrl}/chat/getMessage?chatId=${data.chatId}`,
         {
           headers: {
             Authorization: `Bearer ${data.token}`,

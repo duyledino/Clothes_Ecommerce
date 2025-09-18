@@ -29,12 +29,17 @@ const initState = {
   bestCustomer: [] as BestCustomer[],
 };
 
+const baseUrl =
+  process.env.NEXT_PUBLIC_NODE_ENV === "development"
+    ? process.env.NEXT_PUBLIC_SERVER_API
+    : "";
+
 export const fetchRevenue = createAsyncThunk(
   "fetch revenue",
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/track/revenue`
+        `${baseUrl}/track/revenue`
       );
       return response.data.revenue;
     } catch (error: any) {
@@ -49,7 +54,7 @@ export const fetchBestSeller = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/track/bestSeller`
+        `${baseUrl}/track/bestSeller`
       );
       return response.data.bestSeller;
     } catch (error: any) {
@@ -66,7 +71,7 @@ export const fetchBestCustomer = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/track/bestCustomer`
+        `${baseUrl}/track/bestCustomer`
       );
       return response.data.bestCustomer;
     } catch (error: any) {

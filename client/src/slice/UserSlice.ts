@@ -31,6 +31,11 @@ const initialState: {
   User: null,
 };
 
+const baseUrl =
+  process.env.NEXT_PUBLIC_NODE_ENV === "development"
+    ? process.env.NEXT_PUBLIC_SERVER_API
+    : "";
+
 export const fetchLogin = createAsyncThunk(
   "login User",
   async (
@@ -39,7 +44,7 @@ export const fetchLogin = createAsyncThunk(
   ) => {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/user/login`,
+        `${baseUrl}/user/login`,
         credentials,
         {
           headers: {
@@ -61,7 +66,7 @@ export const fetchSignup = createAsyncThunk(
   async (user: { email: string; password: string }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/user/createAUser`,
+        `${baseUrl}/user/createAUser`,
         user,
         {
           headers: {
@@ -86,7 +91,7 @@ export const fetchUpdateUser = createAsyncThunk(
   ) => {
     try {
       const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/user/updateUser`,
+        `${baseUrl}/user/updateUser`,
         {
           id: data.id,
           name:data.name,
@@ -114,7 +119,7 @@ export const fetchUserById = createAsyncThunk(
   async (data: { token: string; id: string }, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/user/getAUser?id=${data.id}`,
+        `${baseUrl}/user/getAUser?id=${data.id}`,
         {
           headers: {
             Authorization: `Bearer ${data.token}`,

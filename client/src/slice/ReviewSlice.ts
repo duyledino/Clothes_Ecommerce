@@ -28,13 +28,18 @@ const initialState: ReviewState = {
   errorReview: null,
 };
 
+const baseUrl =
+  process.env.NEXT_PUBLIC_NODE_ENV === "development"
+    ? process.env.NEXT_PUBLIC_SERVER_API
+    : "";
+
 // Async thunk for fetching reviews by product ID
 export const fetchReviewsByProductId = createAsyncThunk(
   "reviews/fetchByProductId",
   async (productId: string, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/review/getReviewByProduct?productId=${productId}`
+        `${baseUrl}/review/getReviewByProduct?productId=${productId}`
       );
       return response.data as Review[];
     } catch (error: any) {
@@ -66,7 +71,7 @@ export const createReview = createAsyncThunk(
   ) => {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/review/createAReviewByUser?userId=${userId}`,
+        `${baseUrl}/review/createAReviewByUser?userId=${userId}`,
         { productId, score, content },
         {
           headers: {
@@ -104,7 +109,7 @@ export const updateReview = createAsyncThunk(
   ) => {
     try {
       const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/review/updateAReviewByUser?productId=${productId}&userId=${userId}`,
+        `${baseUrl}/review/updateAReviewByUser?productId=${productId}&userId=${userId}`,
         { score, content },
         {
           headers: {
@@ -134,7 +139,7 @@ export const deleteReview = createAsyncThunk(
   ) => {
     try {
       await axios.delete(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/review/deleteAReviewByUser?productId=${productId}&userId=${userId}`,
+        `${baseUrl}/review/deleteAReviewByUser?productId=${productId}&userId=${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

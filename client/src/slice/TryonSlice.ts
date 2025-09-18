@@ -11,13 +11,18 @@ const initialState: {
   error: null,
 };
 
+const baseUrl =
+  process.env.NEXT_PUBLIC_NODE_ENV === "development"
+    ? process.env.NEXT_PUBLIC_SERVER_API
+    : "";
+
 export const fetchApiTryon = createAsyncThunk(
   "tryon/post",
   async (data: { formData: FormData; token: string }, { rejectWithValue }) => {
     console.log("FormData", data.formData);
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/tryon/uploadCLothes`,
+        `${baseUrl}/tryon/uploadCLothes`,
         data.formData,
         {
           headers: {

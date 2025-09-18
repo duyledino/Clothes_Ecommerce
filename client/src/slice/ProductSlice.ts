@@ -57,12 +57,17 @@ const initialState: {
   totalPage: 0,
 };
 
+const baseUrl =
+  process.env.NEXT_PUBLIC_NODE_ENV === "development"
+    ? process.env.NEXT_PUBLIC_SERVER_API
+    : "";
+
 export const fetchBestSellerProductFromApi = createAsyncThunk(
   "get/getBestSeller",
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/product/bestSellerProducts`
+        `${baseUrl}/product/bestSellerProducts`
       );
       console.log("resposne.data in fetchBestSellerFromApi: ", response.data);
       return response.data.products;
@@ -79,7 +84,7 @@ export const fetchLatestFromApi = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/product/lastestProducts`
+        `${baseUrl}/product/lastestProducts`
       );
       console.log("resposne.data in lastestProducts: ", response.data);
       return response.data.products;
@@ -111,7 +116,7 @@ export const fetchProductFromApi = createAsyncThunk(
         data.sort
       );
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/product/allProducts?page=${data.page}`,
+        `${baseUrl}/product/allProducts?page=${data.page}`,
         {
           category: data.category,
           subcategory: data.subcategory,
@@ -139,7 +144,7 @@ export const fetchProductFromApiAdmin = createAsyncThunk(
     try {
       console.log("data.page: ", data.page);
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/product/allProductsAdmin?page=${data.page}`,
+        `${baseUrl}/product/allProductsAdmin?page=${data.page}`,
         {
           headers: {
             Authorization: `Bearer ${data.token}`,
@@ -174,7 +179,7 @@ export const fetchCreateAProduct = createAsyncThunk(
     console.log("formData.productCreate: ", formData.productCreate);
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/product/createAProduct`,
+        `${baseUrl}/product/createAProduct`,
         formData.productCreate,
         {
           headers: {
@@ -196,7 +201,7 @@ export const fetchGetProductById = createAsyncThunk(
   async (id: string, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/product/getProductById?id=${id}`
+        `${baseUrl}/product/getProductById?id=${id}`
       );
       console.log(response.data);
       return response.data.product;
@@ -216,7 +221,7 @@ export const fetchTotalPage = createAsyncThunk(
   ) => {
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/product/getTotalPage`,
+        `${baseUrl}/product/getTotalPage`,
         { category: data.categories, subcategory: data.subcategory }
       );
       console.log("response.data total page: ", response.data);
@@ -235,7 +240,7 @@ export const fetchApiSearchProduct = createAsyncThunk(
     try {
       console.log("query: ", data.query);
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/product/findProduct?query=${data.query}`
+        `${baseUrl}/product/findProduct?query=${data.query}`
       );
       console.log("response.data.result: ", response.data);
       return response.data.result;
@@ -251,7 +256,7 @@ export const fetchDeleteProduct = createAsyncThunk(
   async (data: { ids: string[]; token: string }, { rejectWithValue }) => {
     try {
       const response = await axios.delete(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/product/deleteProduct`,
+        `${baseUrl}/product/deleteProduct`,
         {
           headers: {
             Authorization: `Bearer ${data.token}`,
@@ -274,7 +279,7 @@ export const fetchReviseProduct = createAsyncThunk(
   async (data: { ids: string[]; token: string }, { rejectWithValue }) => {
     try {
       const response = await axios.put(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/product/reviseProduct`,
+        `${baseUrl}/product/reviseProduct`,
         { ids: data.ids },
         {
           headers: {

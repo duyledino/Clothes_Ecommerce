@@ -6,14 +6,14 @@ type Product = {
   price: number;
   imageUrl: string[];
   title: string;
-  size:string
+  size: string;
 };
 type cartItem = {
-  size:string
+  size: string;
   count: number;
   subtotal: number;
   product: Product;
-  active: boolean
+  active: boolean;
 };
 
 const initialState: {
@@ -28,6 +28,11 @@ const initialState: {
   Message: null,
 };
 
+const baseUrl =
+  process.env.NEXT_PUBLIC_NODE_ENV === "development"
+    ? process.env.NEXT_PUBLIC_SERVER_API
+    : "";
+
 export const fetchApiCart = createAsyncThunk(
   "get cart",
   //user id get from
@@ -35,7 +40,7 @@ export const fetchApiCart = createAsyncThunk(
     try {
       console.log("id in slice: ", data.id);
       const response = await axios.get(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/cart/getCart?id=${data.id}`,
+        `${baseUrl}/cart/getCart?id=${data.id}`,
         {
           headers: {
             Authorization: `Bearer ${data.token}`,
@@ -69,7 +74,7 @@ export const fetchApiAddToCart = createAsyncThunk(
     try {
       console.log("cartItem: ", data.cartItem);
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_SERVER_API}/cart/addToCart?id=${data.id}`,
+        `${baseUrl}/cart/addToCart?id=${data.id}`,
         { cartItem: data.cartItem },
         {
           headers: {
@@ -90,22 +95,28 @@ export const fetchApiAddToCart = createAsyncThunk(
 export const fetchApiDeleteACart = createAsyncThunk(
   "delete an item in cart",
   // get product id
-  async(data:{productId:string,userId:string,size:string,token:string},{rejectWithValue})=>{
+  async (
+    data: { productId: string; userId: string; size: string; token: string },
+    { rejectWithValue }
+  ) => {
     try {
-      const response = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_API}/cart/removeOneItemCart?userId=${data.userId}&productId=${data.productId}&size=${data.size}`,{
-        headers:{
-          Authorization:`Bearer ${data.token}`
+      const response = await axios.delete(
+        `${baseUrl}/cart/removeOneItemCart?userId=${data.userId}&productId=${data.productId}&size=${data.size}`,
+        {
+          headers: {
+            Authorization: `Bearer ${data.token}`,
+          },
         }
-      })
+      );
       console.log(response.data);
       return response.data.Message;
-    } catch (error:any) {
+    } catch (error: any) {
       console.log("error: ", error);
       const message = error.response?.data?.Message || "Something went wrong";
       return rejectWithValue(message);
     }
   }
-)
+);
 
 const CartSlice = createSlice({
   name: "cart slice",
