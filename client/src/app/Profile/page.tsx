@@ -127,7 +127,7 @@ const Profile = () => {
     }
     if (PaymentURL && !paymentError) {
       setProcess(true);
-      window.location.href = PaymentURL;
+      window.open(PaymentURL,'_blank');
     }
   }, [paymentError, PaymentURL]);
   console.log("OrderUser: ", OrdersUser);
