@@ -64,7 +64,7 @@ const CartPage = () => {
       toast.error(e);
     }
     if (PaymentURL) {
-      window.open(PaymentURL, "_blank");
+      window.location.href = PaymentURL;
       setProcess(true);
     }
   }, [PaymentURL, paymentError, MessageOrder, errorOrder]);
